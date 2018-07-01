@@ -2,17 +2,30 @@
 <html>
 
 <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection" />
     <style>
-        button {
-            height: 30px;
-            width: 30px;
-            outline: none;
+        html,
+        body {
+            margin: 0;
+            padding: 0 6px 6px 6px;
+        }
+
+        .url-form {
+            width: 200px;
+            margin: auto;
         }
     </style>
 </head>
 
 <body>
-    <button id="consoleLog"></button>
+    <form class="url-form">
+        <input type="url" placeholder="Short URL" class="short-url">
+        <button type="submit" class="button">
+            Expand URL
+            <i class="material-icons right">zoom_out_map</i>
+        </button>
+    </form>
     <script src="popup.js"></script>
 </body>
 
