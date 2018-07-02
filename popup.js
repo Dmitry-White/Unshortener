@@ -6,5 +6,11 @@ let value = "";
 urlForm.addEventListener('submit', e => {
     e.preventDefault();
     value = urlInput.value;
-    window.open(value)
+    chrome.runtime.sendMessage({ data: "expand", value });
+});
+
+chrome.runtime.onMessage.addListener(message => {
+    if (message.data == "open") {
+        window.open(message.value);
+    }
 });
