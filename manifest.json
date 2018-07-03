@@ -2,7 +2,6 @@
     "name": "Unshortener",
     "version": "2.1",
     "description": "Extend a shorten link!",
-    "devtools_page": "devtools.html",
     "manifest_version": 2,
     "icons": {
         "16": "img/icon_16.png",
@@ -17,8 +16,7 @@
         ]
     },
     "permissions": [
-        "https://*.google.com/",
-        "activeTab"
+        "http://expandurl.com/*"
     ],
     "browser_action": {
         "default_icon": "img/icon_16.png",
