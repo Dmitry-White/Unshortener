@@ -1,4 +1,10 @@
-const apiURL = "http://expandurl.com/api/v1/?url=";
+const API_URL = "http://expandurl.com/api/v1/?url=";
+const SHORT_URL_PROVIDERS = [
+    "*://*.bit.ly/*",
+    "*://*.goo.gl/*",
+    "*://*.tiny.cc/*",
+    "*://*.tinyurl.com/*"
+]
 
 chrome.runtime.onMessage.addListener(message => {
     if (message.data == "EXPAND URL") {
@@ -8,31 +14,21 @@ chrome.runtime.onMessage.addListener(message => {
 });
 
 async function fetchAsync(url) {
-    const request = new Request(apiURL + url);
-    let response = await fetch(request);
-    let data = await response.text();
+    const request = new Request(API_URL + url);
+    const response = await fetch(request);
+    const data = await response.text();
     return data;
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
-    function (details) {
-      // Ensuring that we check host names with and without WWW
-      var currentHost = new URL(details.url).hostname;
-      var withWWW;
-      var withoutWWW;
-      if (currentHost.indexOf('www.') == -1) {
-        withoutWWW = currentHost;
-        withWWW = 'www.' + currentHost;
-      }
-      else {
-        withWWW = currentHost;
-        withoutWWW = currentHost.substring(4);
-      }
-  
-      console.log(currentHost, withWWW, withoutWWW);
-      setTimeout(function(){},1000);
+    details => {
+        const shortUrl = new URL(details.url);
+        if (details.tabId) chrome.tabs.remove(details.tabId);
+        fetchAsync(shortUrl)
+            .then(url => window.open(url));
+        return { cancel: true }
     },
-    { urls: ["*://*.bit.ly/*"] },
+    { urls: SHORT_URL_PROVIDERS },
     ["blocking"]
 );
 
